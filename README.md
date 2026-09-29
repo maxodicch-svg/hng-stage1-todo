@@ -3,7 +3,7 @@
 A To-Do List web app with a **notes feature**, built entirely with AI for the
 HNG Stage 1 assignment.
 
-**Live URL:** _add your deployed URL here after deploying_
+**Live URL:** https://remarkable-pudding-e51690.netlify.app/
 **Repository:** https://github.com/maxodicch-svg/hng-stage1-todo
 
 ![stack](https://img.shields.io/badge/stack-vanilla%20JS-4f46e5)
