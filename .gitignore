@@ -1,0 +1,26 @@
+# Dependencies (none are used, but keep the repo clean if that changes)
+node_modules/
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+
+# Environment / secrets
+.env
+.env.*
+*.local
+
+# Generated user backups from the Export button
+taskflow-backup-*.json
+
+# Editor and OS noise
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Local dev scratch
+.tools/
+.tmp/
+*.log

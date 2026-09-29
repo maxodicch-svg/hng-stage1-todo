@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TaskFlow — To-Do &amp; Notes | HNG Stage 1</title>
+    <meta
+      name="description"
+      content="TaskFlow: an AI-built to-do list with notes, Kanban board, search, filters, undo/redo and JSON backup. HNG Internship 15 Stage 1."
+    />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="stylesheet" href="./styles.css" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%234f46e5'/><path d='M26 52l16 16 32-34' stroke='white' stroke-width='12' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>"
+    />
+  </head>
+  <body>
+    <a class="skip-link" href="#tasks">Skip to tasks</a>
+
+    <header class="app-header">
+      <div class="wrap header-inner">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true">✓</span>
+          <div>
+            <h1>TaskFlow</h1>
+            <p class="brand-sub">To-Do List + Notes · HNG Internship 15 · Stage 1</p>
+          </div>
+        </div>
+
+        <div class="header-actions">
+          <button id="undo-btn" class="btn btn-ghost" type="button" title="Undo (Ctrl+Z)" disabled>
+            ↺ Undo
+          </button>
+          <button id="redo-btn" class="btn btn-ghost" type="button" title="Redo (Ctrl+Y)" disabled>
+            ↻ Redo
+          </button>
+          <button id="export-btn" class="btn btn-ghost" type="button" title="Download a JSON backup">
+            ⭳ Export
+          </button>
+          <label class="btn btn-ghost file-btn" for="import-input" title="Restore from a JSON backup">
+            ⭱ Import
+            <input id="import-input" type="file" accept="application/json,.json" hidden />
+          </label>
+          <button id="theme-btn" class="btn btn-ghost" type="button" aria-pressed="false" title="Toggle dark mode">
+            <span id="theme-icon" aria-hidden="true">☾</span>
+            <span class="sr-only">Toggle dark mode</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="wrap" id="main">
+      <!-- Dashboard -->
+      <section aria-labelledby="dash-heading" class="panel">
+        <h2 id="dash-heading" class="sr-only">Progress overview</h2>
+        <div class="stats" id="stats"></div>
+        <div class="progress" role="img" aria-label="Completion progress">
+          <div class="progress-bar" id="progress-bar"></div>
+        </div>
+      </section>
+
+      <!-- Quick add -->
+      <section aria-labelledby="add-heading" class="panel">
+        <h2 id="add-heading">Add a task</h2>
+        <form id="task-form" class="task-form" autocomplete="off">
+          <div class="field grow">
+            <label for="title">Task</label>
+            <input
+              id="title"
+              name="title"
+              type="text"
+              maxlength="200"
+              placeholder="e.g. Deploy the app to Vercel"
+              required
+            />
+          </div>
+          <div class="field">
+            <label for="due">Due date</label>
+            <input id="due" name="due" type="date" />
+          </div>
+          <div class="field">
+            <label for="priority">Priority</label>
+            <select id="priority" name="priority">
+              <option value="low">Low</option>
+              <option value="medium" selected>Medium</option>
+              <option value="high">High</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="tags">Tags</label>
+            <input id="tags" name="tags" type="text" placeholder="comma,separated" />
+          </div>
+          <div class="field grow">
+            <label for="task-notes">Notes</label>
+            <input id="task-notes" name="notes" type="text" maxlength="4000" placeholder="Optional details" />
+          </div>
+          <button class="btn btn-primary" type="submit">+ Add task</button>
+        </form>
+      </section>
+
+      <!-- Search, filter, sort -->
+      <section aria-labelledby="filter-heading" class="panel" id="tasks">
+        <h2 id="filter-heading">Tasks</h2>
+        <div class="toolbar">
+          <div class="field grow">
+            <label for="search">Search</label>
+            <input id="search" type="search" placeholder="Search title, notes or tags…" />
+          </div>
+          <div class="field">
+            <label for="filter-status">Status</label>
+            <select id="filter-status">
+              <option value="all">All</option>
+              <option value="todo">To do</option>
+              <option value="doing">In progress</option>
+              <option value="done">Done</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="filter-priority">Priority</label>
+            <select id="filter-priority">
+              <option value="all">All</option>
+              <option value="high">High</option>
+              <option value="medium">Medium</option>
+              <option value="low">Low</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="filter-tag">Tag</label>
+            <select id="filter-tag"><option value="all">All</option></select>
+          </div>
+          <div class="field">
+            <label for="sort">Sort</label>
+            <select id="sort">
+              <option value="manual">Manual order</option>
+              <option value="due">Due date</option>
+              <option value="priority">Priority</option>
+              <option value="created">Newest</option>
+              <option value="alpha">A → Z</option>
+            </select>
+          </div>
+          <label class="check">
+            <input id="overdue-only" type="checkbox" />
+            <span>Overdue only</span>
+          </label>
+          <button id="clear-filters" class="btn btn-ghost" type="button">Reset filters</button>
+          <button id="clear-completed" class="btn btn-ghost danger" type="button">
+            Clear completed
+          </button>
+        </div>
+
+        <p class="result-count" id="result-count" aria-live="polite"></p>
+
+        <div class="board" id="board">
+          <!-- Columns are rendered by app.js -->
+        </div>
+      </section>
+
+      <!-- Notes -->
+      <section aria-labelledby="notes-heading" class="panel">
+        <h2 id="notes-heading">Notes</h2>
+        <form id="note-form" class="note-form" autocomplete="off">
+          <div class="field grow">
+            <label for="note-title">Title</label>
+            <input id="note-title" type="text" maxlength="200" placeholder="Note title" required />
+          </div>
+          <div class="field">
+            <label for="note-color">Colour</label>
+            <select id="note-color">
+              <option value="amber">Amber</option>
+              <option value="rose">Rose</option>
+              <option value="violet">Violet</option>
+              <option value="sky">Sky</option>
+              <option value="emerald">Emerald</option>
+              <option value="slate">Slate</option>
+            </select>
+          </div>
+          <div class="field full">
+            <label for="note-body">Body</label>
+            <textarea id="note-body" rows="3" maxlength="20000" placeholder="Write anything…"></textarea>
+          </div>
+          <button class="btn btn-primary" type="submit">+ Add note</button>
+        </form>
+
+        <div class="notes-grid" id="notes-grid"></div>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <div class="wrap">
+        <p>
+          Built with AI for the HNG Internship 15 Stage 1 assignment. Data is stored locally in
+          your browser — use <strong>Export</strong> to keep a backup.
+        </p>
+      </div>
+    </footer>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

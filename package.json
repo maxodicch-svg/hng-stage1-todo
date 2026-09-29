@@ -1,0 +1,28 @@
+{
+  "name": "taskflow",
+  "version": "1.0.0",
+  "private": true,
+  "description": "TaskFlow — an AI-built To-Do List app with notes, Kanban board, search/filters, undo/redo and JSON backup. HNG Internship 15, Stage 1.",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node server.mjs",
+    "dev": "node server.mjs",
+    "test": "node --test --test-isolation=none tests/store.test.js tests/api.test.js tests/integration.test.js",
+    "test:store": "node --test --test-isolation=none tests/store.test.js",
+    "test:api": "node --test --test-isolation=none tests/api.test.js",
+    "test:integration": "node --test --test-isolation=none tests/integration.test.js",
+    "check": "node --check app.js && node --check server.mjs && node --check src/store.js && node --check src/seed-data.js"
+  },
+  "keywords": [
+    "hng",
+    "hng-internship-15",
+    "todo",
+    "notes",
+    "kanban",
+    "vanilla-js"
+  ],
+  "license": "MIT"
+}
