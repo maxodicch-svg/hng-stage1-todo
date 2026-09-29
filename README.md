@@ -4,10 +4,10 @@ A To-Do List web app with a **notes feature**, built entirely with AI for the
 HNG Stage 1 assignment.
 
 **Live URL:** _add your deployed URL here after deploying_
-**Repository:** _add your GitHub URL here_
+**Repository:** https://github.com/maxodicch-svg/hng-stage1-todo
 
 ![stack](https://img.shields.io/badge/stack-vanilla%20JS-4f46e5)
-![tests](https://img.shields.io/badge/tests-90%20passing-0f9d58)
+![tests](https://img.shields.io/badge/tests-92%20passing-0f9d58)
 ![deps](https://img.shields.io/badge/runtime%20dependencies-0-0f9d58)
 
 ---
@@ -63,7 +63,7 @@ No `npm install` is required — there are no dependencies.
 ## Test it
 
 ```bash
-npm test              # all 90 tests
+npm test              # all 92 tests
 npm run test:store    # pure state logic
 npm run test:api      # HTTP endpoint validation
 npm run test:integration  # UI wiring, escaping, seed data
@@ -74,10 +74,14 @@ The suite covers:
 
 - **56 store tests** — task and note CRUD, filtering, sorting, undo/redo,
   import/export, storage failure handling, and every invalid-input path
-- **13 API tests** — `/api/health`, `/api/version`, static routes, `405`/`404`
+- **14 API tests** — `/api/health`, `/api/version`, static routes, `405`/`404`
   handling, and path-traversal / source-leak guards
-- **21 integration tests** — every DOM id the UI queries exists, no unescaped
+- **22 integration tests** — every DOM id the UI queries exists, no unescaped
   user content reaches `innerHTML`, labels and keyboard access are wired
+
+> The HTTP tests self-skip with a clear notice on machines where firewall or
+> endpoint-protection software blocks Node from connecting to its own loopback
+> listener. `fail 0` is the signal to look for.
 
 See [`AGENTS.md`](./AGENTS.md) for the rules that keep this true.
 
@@ -157,7 +161,7 @@ src/store.js               pure state logic, no browser APIs
 src/seed-data.js           first-run demo content
 api/health.js              serverless health endpoint (Vercel)
 server.mjs                 local static server + API
-tests/                     90 tests across three suites
+tests/                     92 tests across three suites
 AGENTS.md                  rules for AI coding agents
 ```
 
